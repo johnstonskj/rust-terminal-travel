@@ -8,6 +8,9 @@ license-file = "LICENSE"
 readme = "README.md"
 edition = "2018"
 
+categories = [ "command-line-utilities" ]
+keywords = [ "cli", "terminal", "travel" ]
+
 [dependencies]
 chrono = { version = "0.4", features = ["serde"] }
 console = "0.15"
