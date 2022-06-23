@@ -1,0 +1,48 @@
+---
+identifier: 2022-06
+name: Playa del Carmen
+travelers:
+  - Simon
+items:
+  - flight:
+      number: 594
+      record:
+        provider: DL
+        confirmation: GROVQY
+        start_date_time: "2022-06-24T07:15:00"
+        start_location: SEA
+        end_date_time: "2022-06-24T15:03:00"
+        end_location: CUN
+  - flight:
+      number: 604
+      record:
+        provider: DL
+        confirmation: GROVQY
+        start_date_time: "2022-07-05T14:03:00"
+        start_location: CUN
+        end_date_time: "2022-07-05T20:23:00"
+        end_location: SEA
+  - transport:
+      record:
+        provider: CARM
+        start_date_time: "2022-06-24T16:00:00"
+        start_location: Cancun airport
+        end_date_time: "2022-06-24T17:00:00"
+        end_location: "The Elements, Playa del Carmen"
+      kind: shuttle
+  - transport:
+      record:
+        provider: CARM
+        confirmation: GROVQY
+        start_date_time: "2022-07-05T11:00:00"
+        start_location: "The Elements, Playa del Carmen"
+        end_date_time: "2022-07-05T12:00:00"
+        end_location: Cancun airport
+      kind: shuttle
+  - accomodation:
+      record:
+        provider: bric
+        confirmation: "6015334"
+        start_date_time: "2022-06-26T16:00:00"
+        start_location: "Garden house 11, The Elements, Playa dl Carmen."
+        end_date_time: "2022-07-05T11:00:00"

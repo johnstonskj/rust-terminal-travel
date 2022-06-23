@@ -1,0 +1,25 @@
+[package]
+name = "travelcli"
+version = "0.1.0"
+authors = ["Simon Johnston <johnstonskj@gmail.com>"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "travelcli"
+path = "src/bin/travelcli.rs"
+
+[dependencies]
+atty = "0.2"
+colored = "2.0"
+human-panic = "1.0"
+rustyline = "9.0"
+rustyline-derive = "0.5"
+structopt = "0.3"
+terminal-travel = { path = ".." }
+tokio = { version = "1.5", features = ["full"] }
+tracing = "0.1"
+tracing-appender = "0.2"
+tracing-log = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

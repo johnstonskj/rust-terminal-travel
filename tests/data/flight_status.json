@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "count": 1,
+    "links": {
+      "self": "https://test.api.amadeus.com/v2/schedule/flights?carrierCode=AA&flightNumber=1471&scheduledDepartureDate=2021-06-12"
+    }
+  },
+  "data": [
+    {
+      "type": "DatedFlight",
+      "scheduledDepartureDate": "2021-06-12",
+      "flightDesignator": {
+        "carrierCode": "AA",
+        "flightNumber": 1471
+      },
+      "flightPoints": [
+        {
+          "iataCode": "SEA",
+          "departure": {
+            "timings": [
+              {
+                "qualifier": "STD",
+                "value": "2021-06-12T21:08-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "iataCode": "MIA",
+          "arrival": {
+            "timings": [
+              {
+                "qualifier": "STA",
+                "value": "2021-06-13T06:00-04:00"
+              }
+            ]
+          }
+        }
+      ],
+      "segments": [
+        {
+          "boardPointIataCode": "SEA",
+          "offPointIataCode": "MIA",
+          "scheduledSegmentDuration": "PT5H52M"
+        }
+      ],
+      "legs": [
+        {
+          "boardPointIataCode": "SEA",
+          "offPointIataCode": "MIA",
+          "aircraftEquipment": {
+            "aircraftType": "321"
+          },
+          "scheduledLegDuration": "PT5H52M"
+        }
+      ]
+    }
+  ]
+}
