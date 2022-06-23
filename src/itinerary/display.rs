@@ -33,13 +33,15 @@ pub fn display_itinerary(itinerary: &Itinerary, format: DisplayFormat) -> Result
     match format {
         DisplayFormat::NuTable => {
             let visitor = NuTable(Term::stdout(), Default::default());
-            visit_ordered_itinerary(itinerary, &visitor, VisitOrder::AsIs);
+            visit_ordered_itinerary(itinerary, &visitor, VisitOrder::AsIs)?;
         }
         DisplayFormat::Cards => {
             let visitor = Cards(Term::stdout());
+            visit_ordered_itinerary(itinerary, &visitor, VisitOrder::Booking)?;
         }
         DisplayFormat::Indented => {
             let visitor = Indented(Term::stdout());
+            visit_ordered_itinerary(itinerary, &visitor, VisitOrder::Timing)?;
         }
     }
     Ok(())

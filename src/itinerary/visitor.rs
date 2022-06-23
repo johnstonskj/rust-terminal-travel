@@ -75,7 +75,7 @@ pub trait ItineraryVisitor {
 }
 
 pub enum VisitOrder {
-    StartEnd,
+    Timing,
     Booking,
     AsIs,
 }
@@ -99,7 +99,7 @@ pub fn visit_ordered_itinerary(
     visitor.name(itinerary.name())?;
 
     match order {
-        VisitOrder::StartEnd => todo!(),
+        VisitOrder::Timing => todo!(),
         VisitOrder::Booking => todo!(),
         VisitOrder::AsIs => {
             for item in itinerary.items() {
@@ -138,7 +138,7 @@ pub fn visit_ordered_itinerary(
 
 impl Default for VisitOrder {
     fn default() -> Self {
-        Self::StartEnd
+        Self::AsIs
     }
 }
 

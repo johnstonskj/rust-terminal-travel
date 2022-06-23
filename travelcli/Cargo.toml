@@ -11,11 +11,11 @@ name = "travelcli"
 path = "src/bin/travelcli.rs"
 
 [dependencies]
-atty = "0.2"
-colored = "2.0"
+#atty = "0.2"
+#colored = "2.0"
 human-panic = "1.0"
-rustyline = "9.0"
-rustyline-derive = "0.5"
+#rustyline = "9.0"
+#rustyline-derive = "0.5"
 structopt = "0.3"
 terminal-travel = { path = ".." }
 tokio = { version = "1.5", features = ["full"] }

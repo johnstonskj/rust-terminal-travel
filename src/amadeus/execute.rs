@@ -45,18 +45,16 @@ macro_rules! make_api_call {
             if !service.has_access_token() {
                 let secret_name = format!(
                     "{}_API_SECRET",
-                    $crate::amadeus::execute::AMADEUS_SERVICE_NAME.to_uppercase());
+                    $crate::amadeus::execute::AMADEUS_SERVICE_NAME.to_uppercase()
+                );
                 if let Ok(secret) = std::env::var(secret_name) {
-                    let token = $crate::amadeus::execute::get_access_token(
-                        service,
-                        secret,
-                    )
-                        .await?;
+                    let token = $crate::amadeus::execute::get_access_token(service, secret).await?;
                     service.set_access_token(token);
                 } else {
                     error!(
                         "no API secret set for service {}",
-                        $crate::amadeus::execute::AMADEUS_SERVICE_NAME);
+                        $crate::amadeus::execute::AMADEUS_SERVICE_NAME
+                    );
                     panic!();
                 }
             }
@@ -89,7 +87,7 @@ macro_rules! make_api_call {
                 Ok(actual)
             } else {
                 let error: $crate::amadeus::error::Error = serde_json::from_str(&text)?;
-                error!("{}", text);
+                error!("{:?}", error);
                 Err(Box::new(error))
             }
         }
@@ -189,7 +187,7 @@ pub(crate) async fn get_access_token(
         Ok(actual.access_token)
     } else {
         let error: ApiError = serde_json::from_str(&text)?;
-        error!("{}", text);
+        error!("{:?}", error);
         Err(Box::new(error))
     }
 }

@@ -11,12 +11,11 @@ use std::error::Error;
 use std::fs::File;
 use std::path::PathBuf;
 use structopt::StructOpt;
-use terminal_travel::config::{APP_CONFIG_NAME, AppConfig};
-use terminal_travel::config::{get_app_config_path, get_app_config_from, get_stage};
-use terminal_travel::itinerary;
+use terminal_travel::config::{get_app_config_from, get_app_config_path, get_stage};
+use terminal_travel::config::{AppConfig, APP_CONFIG_NAME};
 use terminal_travel::itinerary::display::{display_itinerary, DisplayFormat};
 use terminal_travel::itinerary::io::from_reader;
-use tracing::{info, debug};
+use tracing::{debug, info};
 
 // ------------------------------------------------------------------------------------------------
 // Public Types
@@ -48,7 +47,7 @@ enum Command {
         #[structopt(short, long)]
         /// Use interactive mode
         interactive: bool,
-        
+
         #[structopt(name = "FILE", parse(from_os_str))]
         /// Itinerary file path
         file: PathBuf,
@@ -58,7 +57,7 @@ enum Command {
         #[structopt(short, long)]
         /// Use interactive mode
         interactive: bool,
-        
+
         #[structopt(name = "FILE", parse(from_os_str))]
         /// Itinerary file path
         file: PathBuf,
@@ -67,7 +66,7 @@ enum Command {
     Display {
         #[structopt(long)]
         update_flights: bool,
-        
+
         #[structopt(name = "FILE", parse(from_os_str))]
         /// Itinerary file path
         file: PathBuf,
@@ -101,25 +100,37 @@ enum Command {
 //         )
 //         .await?
 //     );
-// 
+//
 //     Ok(())
 // }
 
-async fn cmd_new_itinerary(file: PathBuf, interactive: bool, app_config: AppConfig) -> Result<(), Box<dyn Error>> {
+async fn cmd_new_itinerary(
+    _file: PathBuf,
+    _interactive: bool,
+    _app_config: AppConfig,
+) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn cmd_edit_itinerary(file: PathBuf, interactive: bool, app_config: AppConfig) -> Result<(), Box<dyn Error>> {
+async fn cmd_edit_itinerary(
+    _file: PathBuf,
+    _interactive: bool,
+    _app_config: AppConfig,
+) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn cmd_display_itinerary(file: PathBuf, update_flights: bool, app_config: AppConfig) -> Result<(), Box<dyn Error>> {
+async fn cmd_display_itinerary(
+    file: PathBuf,
+    _update_flights: bool,
+    _app_config: AppConfig,
+) -> Result<(), Box<dyn Error>> {
     if !file.is_file() {
         eprintln!("Error: file '{:?}' does not exist", file);
     }
     let file = File::open(&file)?;
     let itinerary = from_reader(file)?;
-    display_itinerary(&itinerary, DisplayFormat::default());
+    display_itinerary(&itinerary, DisplayFormat::default())?;
     Ok(())
 }
 
@@ -127,21 +138,21 @@ fn init_tracing(level: i8) {
     use terminal_travel::config::Stage;
     use tracing_subscriber::filter::LevelFilter;
     use tracing_subscriber::EnvFilter;
-    
+
     let env_filter = EnvFilter::from_default_env().add_directive(
-                match level {
-                    0 => LevelFilter::OFF,
-                    1 => LevelFilter::ERROR,
-                    2 => LevelFilter::WARN,
-                    3 => LevelFilter::INFO,
-                    4 => LevelFilter::DEBUG,
-                    _ => LevelFilter::TRACE,
-                }
-                .into(),
+        match level {
+            0 => LevelFilter::OFF,
+            1 => LevelFilter::ERROR,
+            2 => LevelFilter::WARN,
+            3 => LevelFilter::INFO,
+            4 => LevelFilter::DEBUG,
+            _ => LevelFilter::TRACE,
+        }
+        .into(),
     );
-    
-    let file_appender = tracing_appender::rolling::daily(".", &format!("{}.log", APP_CONFIG_NAME);
-    
+
+    let file_appender = tracing_appender::rolling::daily(".", &format!("{}.log", APP_CONFIG_NAME));
+
     match get_stage() {
         Stage::Development => tracing_subscriber::fmt()
             .with_env_filter(env_filter)
@@ -175,6 +186,8 @@ fn init_tracing(level: i8) {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+    human_panic::setup_panic!();
+    
     let cmd_line = CommandLine::from_args();
     debug!("{:?}", cmd_line);
 
@@ -186,10 +199,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
     };
 
     let app_config = get_app_config_from(&config_file)?;
-    
+
     match cmd_line.cmd {
-        Command::New { interactive, file } => cmd_new_itinerary(file, interactive, app_config).await?,
-        Command::Edit { interactive, file } => cmd_edit_itinerary(file, interactive, app_config).await?,
+        Command::New { interactive, file } => {
+            cmd_new_itinerary(file, interactive, app_config).await?
+        }
+        Command::Edit { interactive, file } => {
+            cmd_edit_itinerary(file, interactive, app_config).await?
+        }
         Command::Display {
             update_flights,
             file,
